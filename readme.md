@@ -51,3 +51,13 @@ All checkboxes will be reset and all text behind an `>:` will be replaces with `
 - Install task.dev
 - Install go
 - run `task install`
+
+## Running without installing GO
+
+See the binaries in releases.
+
+Replace in Taskfile:
+
+- ` go run main.go {{.FILE}}`
+- with
+- `./md-testdoc {{.FILE}}`
