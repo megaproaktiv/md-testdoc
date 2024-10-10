@@ -1,0 +1,34 @@
+# https://taskfile.dev
+
+version: "3"
+
+env:
+  DATE:
+    sh: date +%Y-%m-%d-%H%M
+  STAGE: "dev"
+  APP_VERSION: "1.0.0"
+vars:
+  FILE: testcase1.md
+  
+
+tasks:
+  install:
+    desc: Install dependencies
+    cmds:
+      - brew install pandoc
+      - npm i -g markmac
+    silent: true
+
+  render:
+    desc: Render markdown to HTML
+    vars:
+      OUT: result-testcase1-{{.STAGE}}-{{.APP_VERSION}}-{{.DATE}}.pdf
+    cmds:
+      - markmac <{{.FILE}} > tmp.md
+      - pandoc tmp.md -o {{.OUT}}  -V papersize:a4 -V geometry:margin=1in
+      - open {{.OUT}}
+
+  refresh:
+    desc: Refresh the checklist
+    cmds:
+      - go run main.go {{.FILE}}
